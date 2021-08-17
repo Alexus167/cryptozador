@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from '@emotion/styled';
 import useMoneda from '../hooks/useMoneda';
 import useCriptomoneda from '../hooks/useCriptomoneda';
+import Error from './Error';
 import axios from 'axios';
 
 const Boton = styled.input`
@@ -73,7 +74,7 @@ const Formulario = () => {
         <form
             onSubmit={cotizarMoneda}
         >
-            {error ? 'Hay un error' : null}
+            {error ? <Error mensaje="Todos los campos son obligatorios" /> : null}
 
             <SelectMonedas />
 

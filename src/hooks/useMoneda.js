@@ -22,9 +22,10 @@ const Select = styled.select`
 `;
 
 const useMoneda = (label, stateInicial, opciones) => {
-    //State de custo hook
-    const [state, actualizarState] = useState('stateInicial');
-    const SelectMoneda = () => {
+    //State de custom hook
+    const [state, actualizarState] = useState(stateInicial);
+
+    const SelectMoneda = () => ( 
         <Fragment>
             <Label>{label}</Label>
             <Select
@@ -37,7 +38,7 @@ const useMoneda = (label, stateInicial, opciones) => {
                ))}
             </Select>
         </Fragment>
-    };
+    );
 
     //Retornar state. interfaz y fn que modifica el state
     return [state, SelectMoneda, actualizarState];

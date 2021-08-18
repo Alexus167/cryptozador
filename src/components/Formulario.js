@@ -4,6 +4,7 @@ import useMoneda from '../hooks/useMoneda';
 import useCriptomoneda from '../hooks/useCriptomoneda';
 import Error from './Error';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const Boton = styled.input`
     margin-top:20px;
@@ -23,7 +24,7 @@ const Boton = styled.input`
     }
 `;
 
-const Formulario = () => {
+const Formulario = ({guardarMoneda, guardarCriptomoneda}) => {
 
     //state lista de criptos
     const [listacripto, guardarCriptomonedas] = useState([]);
@@ -38,7 +39,7 @@ const Formulario = () => {
     ]
 
     //Utiliza use Moneda
-    const [moneda, SelectMonedas] = useMoneda('Selecciona tu Moneda', '', MONEDAS);
+    const [moneda, SelectMoneda] = useMoneda('Selecciona tu Moneda', '', MONEDAS);
 
     //Utiliza useCriptomoneda
     const [criptomoneda, SelectCripto] = useCriptomoneda('Elige tu Criptomoneda', '', listacripto);
@@ -48,7 +49,7 @@ const Formulario = () => {
         const consultarAPI = async () => {
             const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
 
-            const resultado = await axios.get();
+            const resultado = await axios.get(url);
 
             guardarCriptomonedas(resultado.data.Data);
         }
@@ -67,6 +68,8 @@ const Formulario = () => {
 
         //pasar los datos al componente principal
         guardarError(false);
+        guardarMoneda(moneda);
+        guardarCriptomoneda(criptomoneda);
 
     }
 
@@ -76,7 +79,7 @@ const Formulario = () => {
         >
             {error ? <Error mensaje="Todos los campos son obligatorios" /> : null}
 
-            <SelectMonedas />
+            <SelectMoneda />
 
             <SelectCripto />
 
@@ -86,6 +89,11 @@ const Formulario = () => {
             />
         </form>
      );
+}
+
+Formulario.propTypes = {
+    guardarMoneda: PropTypes.func.isRequired,
+    guardarCriptomoneda: PropTypes.func.isRequired
 }
  
 export default Formulario;
